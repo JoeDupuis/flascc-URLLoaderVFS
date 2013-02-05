@@ -19,6 +19,7 @@ In your AS3 code :
 Exactly the same as the HTTP VFS except for the "loadManifest".
 
 In your manifest:
+
 	Realpath                             fakePath
 	RealAndFakePath
 	c:/Windows/Style/Path/AFile.lua     /AFile.lua
