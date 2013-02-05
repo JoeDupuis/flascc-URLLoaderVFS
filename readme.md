@@ -28,5 +28,17 @@ In your manifest:
 
 You put one file per line, separate the real and fake path with space (real path is where you can find the real file on your file system or on the web, it is the string given to URLLoader. The fake path is where your c++ will see the file on the VFS once loaded in your Flascc app). If you want to use the same path for both and simulate your real file system, just put one path, it will be used for both(It may not work with absolute path on windows since flascc use unix style path.) You can also use website for the realpath (You can use whatever URLLoader would take).
 
+You need InMemoryBackingStore for it to compile, which is in the share folder of the flascc sdk. So use the same compilation line as the sample 07 (file system) :
+
+	$(AS3COMPILERARGS)	-import $(call nativepath,$(FLASCC)/usr/lib/builtin.abc) \
+				-import $(call nativepath,$(FLASCC)/usr/lib/playerglobal.abc) \
+				-import $(call nativepath,$(FLASCC)/usr/lib/BinaryData.abc) \
+				-import $(call nativepath,$(FLASCC)/usr/lib/ISpecialFile.abc) \
+				-import $(call nativepath,$(FLASCC)/usr/lib/IBackingStore.abc) \
+				-import $(call nativepath,$(FLASCC)/usr/lib/IVFS.abc) \
+				-import $(call nativepath,$(FLASCC)/usr/lib/InMemoryBackingStore.abc) \
+				-import $(call nativepath,$(FLASCC)/usr/lib/PlayerKernel.abc) \
+				URLLoaderVFS.as-outdir . -out VFS
+
 Enjoy!
 
