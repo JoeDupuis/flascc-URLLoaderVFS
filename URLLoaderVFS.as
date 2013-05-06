@@ -2,7 +2,9 @@
 package com.adobe.flascc.vfs
 {
 import flash.display.Loader;
+import flash.errors.IOError;
 import flash.events.AsyncErrorEvent;
+import flash.events.ErrorEvent;
 import flash.events.Event;
 import flash.events.EventDispatcher;
 import flash.events.IOErrorEvent;
@@ -35,15 +37,24 @@ public class URLLoaderVFS extends InMemoryBackingStore
 	}
 
 
-	public function loadManifest(path:String ="./manifest"):void {
+	public function loadManifest(path:String ="manifest"):void {
 		urlLoader = new URLLoader();
 		urlLoader.addEventListener(Event.COMPLETE, onManifestLoaded);
+		urlLoader.addEventListener(IOErrorEvent.IO_ERROR, onError);
 		urlLoader.load(new URLRequest(path));
 	}
 
 
 	private function onManifestLoaded(e:Event):void {
-		vfsFiles =  e.target.data.split(/\n/);
+		var temp1:Array =  e.target.data.split(/\r/);
+		var temp2:Array;
+		vfsFiles = new Array();
+		for each (var tempPath1:String in temp1){
+			temp2 = tempPath1.split(/\n/);
+			for each (var tempPath2:String in temp2){
+				vfsFiles.push(tempPath2);
+			}
+		}
 		startNewFile();
 	}
 
